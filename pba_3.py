@@ -1,3 +1,4 @@
+import streamlit as st
 import re
 from collections import Counter
 import time
@@ -45,16 +46,20 @@ def edits1(word):
 def edits2(word):
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
 
-# Contoh penggunaan untuk memeriksa kata-kata
-if __name__ == "__main__":
-    import time
+# Streamlit UI
+st.title("Indonesian Spell Checker using Norvig's Algorithm")
 
-    test_words = input("Masukkan kata-kata yang dipisahkan dengan koma: ").split(',')
+input_words = st.text_input("Masukkan kata-kata yang dipisahkan dengan koma:", "")
 
-    # Peter Norvig Spell Checker
+if st.button("Periksa Ejaan"):
+    test_words = input_words.split(',')
+    
     start = time.time()
-    for w in test_words:
-        print(f"'{w.strip()}' -> '{correction(w.strip())}'")
+    corrected_words = {w: correction(w.strip()) for w in test_words}
     end = time.time()
-    print(f'- Peter Norvig: {end - start} detik')
-    print()
+    
+    st.write(f'Waktu yang diperlukan: {end - start:.4f} detik')
+    
+    st.write("Koreksi Kata:")
+    for word, correction in corrected_words.items():
+        st.write(f"'{word.strip()}' -> '{correction}'")
