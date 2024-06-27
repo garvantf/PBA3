@@ -185,8 +185,7 @@ for c in words:
 
 import time
 
-test_words = ['kcing', 'memkan', 'mrdeka', 'mnyedihkan', 'gimena',
-              'terdpt', 'mrmpersulit', 'mhon', 'banos', 'begimana']
+test_words = input("Masukkan kata-kata yang dipisahkan dengan koma: ").split(',')
 
 # Peter Norvig Spell Checker
 start = time.time()
