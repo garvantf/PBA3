@@ -62,4 +62,4 @@ if st.button("Periksa"):
         for w, corrected in results.items():
             st.write(f"'{w.strip()}' -> '{corrected}'")
     else:
-        st.write("Mohon masuk
+        st.write("Mohon masukkan kata untuk diperiksa.")
