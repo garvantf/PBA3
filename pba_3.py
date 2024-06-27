@@ -1,4 +1,3 @@
-import streamlit as st
 import re
 from collections import Counter
 import time
@@ -11,6 +10,10 @@ def load_corpus(path):
 # Fungsi untuk mendapatkan daftar kata
 def words(text):
     return re.findall(r'\w+', text.lower())
+
+# Load korpus
+path_corpus = "01-kbbi3-2001-sort-alpha.lst"
+WORDS = Counter(words(load_corpus(path_corpus)))
 
 # Fungsi untuk menghitung probabilitas kata
 def P(word, N=sum(WORDS.values())):
@@ -42,24 +45,16 @@ def edits1(word):
 def edits2(word):
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
 
-# Load korpus
-path_corpus = "01-kbbi3-2001-sort-alpha.lst"
-WORDS = Counter(words(load_corpus(path_corpus)))
+# Contoh penggunaan untuk memeriksa kata-kata
+if __name__ == "__main__":
+    import time
 
-# Streamlit UI
-st.title("Indonesian Spell Checker using Norvig's Algorithm")
+    test_words = input("Masukkan kata-kata yang dipisahkan dengan koma: ").split(',')
 
-input_words = st.text_input("Masukkan kata-kata yang dipisahkan dengan koma:", "")
-
-if st.button("Periksa Ejaan"):
-    test_words = input_words.split(',')
-    
+    # Peter Norvig Spell Checker
     start = time.time()
-    corrected_words = {w: correction(w.strip()) for w in test_words}
+    for w in test_words:
+        print(f"'{w.strip()}' -> '{correction(w.strip())}'")
     end = time.time()
-    
-    st.write(f'Waktu yang diperlukan: {end - start:.4f} detik')
-    
-    st.write("Koreksi Kata:")
-    for word, correction in corrected_words.items():
-        st.write(f"'{word.strip()}' -> '{correction}'")
+    print(f'- Peter Norvig: {end - start} detik')
+    print()
