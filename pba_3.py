@@ -37,8 +37,8 @@ def edits1(word):
     splits     = [(word[:i], word[i:])    for i in range(len(word) + 1)]
     deletes    = [L + R[1:]               for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R)>1]
-    replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
-    inserts    = [L + c + R               for L, R in splits for c in letters]
+    replaces   = [L + c + R[1:]           for L, R for c in letters if R]
+    inserts    = [L + c + R               for L, R for c in letters]
     return set(deletes + transposes + replaces + inserts)
 
 # Fungsi untuk menghasilkan semua kata yang berjarak dua edit dari kata yang diberikan
@@ -74,14 +74,16 @@ if st.button("Periksa"):
         
         st.write(f"Akurasi: {accuracy:.2%}")
         
-        # Tampilkan known edits1 dari kata 'kcing'
-        st.write("Kandidat koreksi untuk 'kcing':")
-        st.write(known(edits1('kcing')))
+        # Tampilkan known edits1 dari kata pertama dalam input
+        if test_words:
+            first_word = test_words[0].strip()
+            st.write(f"Kandidat koreksi untuk '{first_word}':")
+            st.write(known(edits1(first_word)))
         
-        # Hitung probabilitas dari daftar kata tertentu
+        # Hitung probabilitas dari kata-kata dalam input
         st.write("Probabilitas kata:")
-        words_list = ['cing', 'kaing', 'king', 'kling', 'kring', 'kucing', 'kuing']
-        for c in words_list:
-            st.write(f"P({c}) = {P(c):.6f}")
+        for c in test_words:
+            word = c.strip()
+            st.write(f"P({word}) = {P(word):.6f}")
     else:
         st.write("Mohon masukkan kata untuk diperiksa.")
