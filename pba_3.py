@@ -55,11 +55,33 @@ if st.button("Periksa"):
     if input_text:
         test_words = input_text.split(',')
         results = {}
+        correct_count = 0
+        total_words = len(test_words)
+        
         for w in test_words:
-            results[w] = correction(w.strip())
+            original_word = w.strip()
+            corrected_word = correction(original_word)
+            results[original_word] = corrected_word
+            if original_word == corrected_word:
+                correct_count += 1
+        
+        accuracy = correct_count / total_words
+        
         # Tampilkan hasil
         st.write("Hasil Koreksi:")
         for w, corrected in results.items():
             st.write(f"'{w.strip()}' -> '{corrected}'")
+        
+        st.write(f"Akurasi: {accuracy:.2%}")
+        
+        # Tampilkan known edits1 dari kata 'kcing'
+        st.write("Kandidat koreksi untuk 'kcing':")
+        st.write(known(edits1('kcing')))
+        
+        # Hitung probabilitas dari daftar kata tertentu
+        st.write("Probabilitas kata:")
+        words_list = ['cing', 'kaing', 'king', 'kling', 'kring', 'kucing', 'kuing']
+        for c in words_list:
+            st.write(f"P({c}) = {P(c):.6f}")
     else:
         st.write("Mohon masukkan kata untuk diperiksa.")
