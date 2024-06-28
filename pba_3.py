@@ -74,16 +74,17 @@ if st.button("Periksa"):
         
         st.write(f"Akurasi: {accuracy:.2%}")
         
-        # Tampilkan known edits1 dari kata pertama dalam input
-        if test_words:
-            first_word = test_words[0].strip()
-            st.write(f"Kandidat koreksi untuk '{first_word}':")
-            st.write(known(edits1(first_word)))
+        # Tampilkan known edits1 dari setiap kata dalam input
+        st.write("Kandidat koreksi:")
+        for word in test_words:
+            word = word.strip()
+            st.write(f"Kandidat koreksi untuk '{word}':")
+            st.write(known(edits1(word)))
         
         # Hitung probabilitas dari kata-kata dalam input
         st.write("Probabilitas kata:")
-        for c in test_words:
-            word = c.strip()
+        for word in test_words:
+            word = word.strip()
             st.write(f"P({word}) = {P(word):.6f}")
     else:
         st.write("Mohon masukkan kata untuk diperiksa.")
